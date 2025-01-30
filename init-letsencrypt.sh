@@ -8,11 +8,19 @@ while [[ -z $DOMAIN   ]]
     read -p "DOMAIN: " DOMAIN
     printf "   -> DOMAIN: $DOMAIN \n"
   done
-printf "Please type your domain API name example apirest.com ! \n"
-while [[ -z $DOMAINAPI   ]]
+
+printf "Please type your domain PRIVATE API name example apirest.com ! \n"
+while [[ -z $DOMAINPRIVATEAPI   ]]
   do 
-    read -p "DOMAINAPI: " DOMAINAPI
-    printf "   -> DOMAINAPI: $DOMAINAPI \n"
+    read -p "DOMAINPRIVATEAPI: " DOMAINPRIVATEAPI
+    printf "   -> DOMAINPRIVATEAPI: $DOMAINPRIVATEAPI \n"
+  done
+
+printf "Please type your domain PUBLIC API name example apirest.com ! \n"
+while [[ -z $DOMAINPUBLICAPI   ]]
+  do 
+    read -p "DOMAINPUBLICAPI: " DOMAINPUBLICAPI
+    printf "   -> DOMAINPUBLICAPI: $DOMAINPUBLICAPI \n"
   done
 
 printf "Please type your domain APP name example apirest.com ! \n"
@@ -38,12 +46,13 @@ printf "Test value : ${staging} \n"
 
 printf "Creanting news virtualhost \n"
 vh_path="$PWD/nginx/nginx"
-domains=( $DOMAIN $DOMAINAPI $DOMAINAPP )
+domains=( $DOMAIN $DOMAINPRIVATEAPI $DOMAINPUBLICAPI $DOMAINAPP )
 
 cp ${vh_path}/domain ${vh_path}/${DOMAIN}.conf
 cp ${vh_path}/domain.websocket ${vh_path}/${DOMAIN}.websocket.conf
 cp ${PWD}/nginx/modules-enabled/stream ${PWD}/nginx/modules-enabled/stream.conf
-sed -i "s/DOMAINAPI/${DOMAINAPI}/g" ${vh_path}/${DOMAIN}.conf
+sed -i "s/DOMAINPRIVATEAPI/${DOMAINPRIVATEAPI}/g" ${vh_path}/${DOMAIN}.conf
+sed -i "s/DOMAINPUBLICAPI/${DOMAINPUBLICAPI}/g" ${vh_path}/${DOMAIN}.conf
 sed -i "s/DOMAINAPP/${DOMAINAPP}/g" ${vh_path}/${DOMAIN}.conf
 sed -i "s/DOMAIN/${DOMAIN}/g" ${vh_path}/${DOMAIN}.conf
 sed -i "s/DOMAIN/$DOMAIN/g" ${vh_path}/${DOMAIN}.websocket.conf
